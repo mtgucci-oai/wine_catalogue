@@ -1,0 +1,38 @@
+[
+  {
+    "producer": "Domaine Leflaive",
+    "wineName": "Puligny-Montrachet 1er Cru Les Pucelles",
+    "vintage": 2020,
+    "country": "France",
+    "region": "Burgundy",
+    "grapeVarieties": "Chardonnay",
+    "style": "Full-bodied white",
+    "tastingNotes": "Lemon curd, white flowers, toasted hazelnut, and chalky minerality with a long, precise finish.",
+    "foodPairing": "Butter-poached lobster, roast chicken, or aged Comté.",
+    "servingOrder": 1
+  },
+  {
+    "producer": "Tenuta San Guido",
+    "wineName": "Sassicaia",
+    "vintage": 2019,
+    "country": "Italy",
+    "region": "Bolgheri, Tuscany",
+    "grapeVarieties": "Cabernet Sauvignon, Cabernet Franc",
+    "style": "Structured red",
+    "tastingNotes": "Blackcurrant, cedar, tobacco leaf, and graphite with polished tannins and vibrant acidity.",
+    "foodPairing": "Bistecca alla Fiorentina, braised short ribs, or porcini risotto.",
+    "servingOrder": 2
+  },
+  {
+    "producer": "Bodega Catena Zapata",
+    "wineName": "Nicolás Catena Zapata",
+    "vintage": 2018,
+    "country": "Argentina",
+    "region": "Mendoza",
+    "grapeVarieties": "Cabernet Sauvignon, Malbec",
+    "style": "Rich red blend",
+    "tastingNotes": "Ripe plum, cassis, violet, cocoa, and spice with broad texture and persistent finish.",
+    "foodPairing": "Grilled ribeye, lamb chops, or smoked eggplant.",
+    "servingOrder": 3
+  }
+]

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wine Catalogue</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="wrap">
+        <h1>Wine Catalogue</h1>
+        <p class="subtitle">A curated selection of wines.</p>
+      </div>
+    </header>
+
+    <main class="wrap">
+      <section aria-live="polite" id="catalogue" class="catalogue-grid"></section>
+    </main>
+
+    <template id="wine-card-template">
+      <article class="wine-card">
+        <h2 class="wine-title"></h2>
+        <p class="wine-meta"></p>
+        <dl class="wine-details">
+          <div><dt>Producer</dt><dd data-field="producer"></dd></div>
+          <div><dt>Country</dt><dd data-field="country"></dd></div>
+          <div><dt>Region</dt><dd data-field="region"></dd></div>
+          <div><dt>Grape varieties</dt><dd data-field="grapeVarieties"></dd></div>
+          <div><dt>Style</dt><dd data-field="style"></dd></div>
+          <div><dt>Tasting notes</dt><dd data-field="tastingNotes"></dd></div>
+          <div><dt>Food pairing</dt><dd data-field="foodPairing"></dd></div>
+          <div><dt>Serving order</dt><dd data-field="servingOrder"></dd></div>
+        </dl>
+      </article>
+    </template>
+
+    <script src="script.js" defer></script>
+  </body>
+</html>
