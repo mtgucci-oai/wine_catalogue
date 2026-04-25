@@ -1,0 +1,105 @@
+:root {
+  --bg: #f7f3ee;
+  --paper: #fffdf9;
+  --text: #2d2323;
+  --muted: #675f5a;
+  --accent: #7a2837;
+  --border: #e7ddd2;
+  --shadow: 0 10px 24px rgba(44, 35, 35, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Georgia", "Times New Roman", serif;
+  background: radial-gradient(circle at top, #fdf9f2 0%, var(--bg) 60%);
+  color: var(--text);
+  line-height: 1.55;
+}
+
+.wrap {
+  width: min(1080px, calc(100% - 2rem));
+  margin: 0 auto;
+}
+
+.site-header {
+  padding: 2.5rem 0 1.5rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 1.25rem;
+}
+
+h1 {
+  margin: 0;
+  letter-spacing: 0.02em;
+  font-size: clamp(1.9rem, 3.4vw, 2.6rem);
+  color: var(--accent);
+}
+
+.subtitle {
+  margin: 0.4rem 0 0;
+  color: var(--muted);
+  font-family: "Helvetica Neue", Arial, sans-serif;
+}
+
+.catalogue-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+  padding-bottom: 2rem;
+}
+
+.wine-card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1rem;
+  box-shadow: var(--shadow);
+}
+
+.wine-title {
+  margin: 0;
+  color: var(--accent);
+  font-size: 1.35rem;
+}
+
+.wine-meta {
+  margin: 0.2rem 0 0.9rem;
+  color: var(--muted);
+  font-family: "Helvetica Neue", Arial, sans-serif;
+}
+
+.wine-details {
+  margin: 0;
+}
+
+.wine-details div {
+  margin-bottom: 0.45rem;
+}
+
+.wine-details dt {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+.wine-details dd {
+  margin: 0.08rem 0 0;
+}
+
+.status {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  color: var(--muted);
+  text-align: center;
+  padding: 2rem;
+}
+
+@media (min-width: 768px) {
+  .wine-card {
+    padding: 1.2rem;
+  }
+}
