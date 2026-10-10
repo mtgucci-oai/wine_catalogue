@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>マデイラ入門 — Madeira</title>
+<style>
+:root{
+  --bg:#faf6ef; --card:#ffffff; --ink:#2b211b; --sub:#6e5f55;
+  --main:#6b2d14; --main2:#8c4a22; --gold:#c08a3e; --gold-l:#f3e6cf;
+  --line:#e7dccb; --chip:#f6efe3; --shadow:0 4px 18px rgba(80,40,10,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:"Hiragino Kaku Gothic ProN","Noto Sans JP","Yu Gothic",Meiryo,sans-serif;background:var(--bg);color:var(--ink);line-height:1.8;font-size:15px}
+.serif{font-family:"Hiragino Mincho ProN","Yu Mincho","Noto Serif JP",serif}
+a{color:var(--main2)}
+/* header */
+header.hero{background:linear-gradient(160deg,#3e1708 0%,#6b2d14 55%,#a5602b 100%);color:#fff;text-align:center;padding:44px 20px 36px}
+.hero .emo{font-size:28px;letter-spacing:10px}
+.hero h1{font-size:30px;margin:10px 0 4px;letter-spacing:.06em}
+.hero .tag{color:#f3d9a8;font-size:14px;letter-spacing:.2em}
+.hero .lead{margin-top:14px;font-size:13px;opacity:.9}
+/* nav */
+nav.tabs{position:sticky;top:0;z-index:10;background:rgba(250,246,239,.96);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch}
+nav.tabs a{display:inline-block;padding:11px 13px;font-size:13px;color:var(--sub);text-decoration:none;border-bottom:3px solid transparent}
+nav.tabs a.on{color:var(--main);border-bottom-color:var(--gold);font-weight:700}
+main{max-width:760px;margin:0 auto;padding:22px 16px 60px}
+.page{scroll-margin-top:52px}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+/* cards */
+.card{background:var(--card);border-radius:16px;box-shadow:var(--shadow);padding:22px 20px;margin-bottom:18px;border:1px solid var(--line)}
+.no{display:inline-block;font-size:12px;color:#fff;background:var(--main);border-radius:999px;padding:2px 12px;letter-spacing:.08em}
+.ttl{font-size:22px;color:var(--main);margin:10px 0 2px;line-height:1.4}
+.en{font-size:13px;color:var(--gold);letter-spacing:.06em}
+.intro{margin-top:10px;color:var(--sub);font-size:14px}
+h3.sec{font-size:16px;color:var(--main);margin:22px 0 10px;padding-bottom:6px;border-bottom:1px dashed var(--line)}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:6px 12px;font-size:14px}
+.kv b{color:var(--main2);white-space:nowrap}
+ul.dot{list-style:none;font-size:14px}
+ul.dot li{position:relative;padding-left:16px;margin:4px 0}
+ul.dot li::before{content:"";position:absolute;left:2px;top:.75em;width:6px;height:6px;border-radius:50%;background:var(--gold)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}
+.chip{background:var(--chip);border:1px solid var(--line);border-radius:999px;padding:2px 12px;font-size:13px}
+.note{background:var(--gold-l);border-left:4px solid var(--gold);border-radius:8px;padding:10px 14px;font-size:13.5px;margin:12px 0}
+.note.sub{background:#f4f1ec;border-left-color:#b9a99a;color:var(--sub)}
+.big{font-size:17px;font-weight:700;color:var(--main);line-height:1.6}
+.emorow{font-size:22px;letter-spacing:4px;margin-bottom:4px}
+.foot{text-align:right;font-size:12px;color:var(--sub);margin-top:14px}
+/* tables */
+.tw{overflow-x:auto;margin:8px 0}
+table{border-collapse:collapse;width:100%;font-size:13px;min-width:520px}
+th,td{border-bottom:1px solid var(--line);padding:8px 8px;text-align:left;vertical-align:top}
+th{background:var(--chip);color:var(--main);font-weight:700;white-space:nowrap}
+/* timeline */
+.tl{border-left:2px solid var(--gold);margin-left:8px;padding-left:16px}
+.tl div{position:relative;margin-bottom:12px;font-size:14px}
+.tl div::before{content:"";position:absolute;left:-23px;top:.55em;width:12px;height:12px;border-radius:50%;background:#fff;border:2px solid var(--main)}
+.tl b{color:var(--main2);display:block;font-size:13px}
+/* list (index) */
+.list a{display:flex;gap:12px;align-items:center;text-decoration:none;color:var(--ink);padding:12px 4px;border-bottom:1px solid var(--line)}
+.list .n{flex:0 0 30px;height:30px;border-radius:50%;background:var(--main);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px}
+.list .t{font-weight:700}
+.list .d{font-size:12px;color:var(--sub)}
+.badge{font-size:11px;border-radius:6px;padding:1px 8px;background:var(--gold-l);color:var(--main2);margin-right:6px}
+/* compare */
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.vs .box{border:1px solid var(--line);border-radius:12px;padding:14px;background:#fffdf9}
+.vs .box h4{color:var(--main);font-size:15px;margin-bottom:6px}
+/* sweetness scale */
+.scale{display:flex;border-radius:10px;overflow:hidden;margin:10px 0;font-size:12px;text-align:center;color:#fff}
+.scale div{flex:1;padding:8px 2px;line-height:1.4}
+/* variety mini-card */
+.vc{border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:12px;background:#fffdf9}
+.vc h4{color:var(--main);font-size:16px}
+.vc .en{margin-left:6px}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pair div{background:var(--chip);border-radius:10px;padding:10px 12px;font-size:13px}
+.pair b{display:block;color:var(--main2)}
+.nav2{display:flex;justify-content:space-between;margin-top:8px}
+.nav2 a{font-size:13px;text-decoration:none;background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 14px;color:var(--main)}
+.home{display:block;text-align:center;margin:26px auto 0;font-size:14px;text-decoration:none;color:var(--main)}
+footer{text-align:center;font-size:12px;color:var(--sub);padding:20px}
+@media(max-width:560px){.vs,.pair{grid-template-columns:1fr}.ttl{font-size:20px}.hero h1{font-size:26px}}
+</style>
+</head>
+<body>
+<header class="hero" id="top">
+  <div class="emo">🏝️🍷</div>
+  <h1 class="serif">マデイラ入門</h1>
+  <div class="tag serif">— Madeira —</div>
+  <div class="lead">「熱」と「酸素」で育てる酒精強化ワイン × 11のテーマ ／ WSET D5 第5章</div>
+</header>
+<nav class="tabs" id="tabs"></nav>
+<main>
+<!-- 目次 -->
+<section class="page" id="winelist" data-tab="🍷リスト">
+  <div class="card">
+    <div class="ttl serif">🍷 本日の学習リスト</div>
+    <div class="intro">出典：WSET Level 4 Diploma D5 Fortified Wines（2025年8月版）第5章 Madeira（p.54–63）。「補足」はテキスト外の一般的な説明です。</div>
+    <div class="list" style="margin-top:10px">
+      <a href="#w1"><span class="n">1</span><span><span class="badge">概要</span><span class="t">ひとことで言うと？</span><br><span class="d">マデイラの正体と産地</span></span></a>
+      <a href="#w2"><span class="n">2</span><span><span class="badge">歴史</span><span class="t">船旅がワインを変えた</span><br><span class="d">1420年の入植からEU加盟まで</span></span></a>
+      <a href="#w3"><span class="n">3</span><span><span class="badge">栽培</span><span class="t">気候とブドウ畑</span><br><span class="d">火山島・ラタダ・レヴァーダ</span></span></a>
+      <a href="#w4"><span class="n">4</span><span><span class="badge">品種</span><span class="t">主要6品種</span><br><span class="d">ティンタ・ネグラと伝統の白ブドウ</span></span></a>
+      <a href="#w5"><span class="n">5</span><span><span class="badge">醸造</span><span class="t">収穫から酒精強化まで</span><br><span class="d">甘さは「止めるタイミング」で決まる</span></span></a>
+      <a href="#w6"><span class="n">6</span><span><span class="badge">熟成</span><span class="t">エストゥファジェン vs カンテイロ</span><br><span class="d">「熱」と「酸素」の2つの熟成法</span></span></a>
+      <a href="#w7"><span class="n">7</span><span><span class="badge">熟成</span><span class="t">延長熟成とブレンド</span><br><span class="d">EU補助金・ノン・ヴィンテージ</span></span></a>
+      <a href="#w8"><span class="n">8</span><span><span class="badge">スタイル</span><span class="t">甘さの表示と品種</span><br><span class="d">セルシアル→マルヴァジア</span></span></a>
+      <a href="#w9"><span class="n">9</span><span><span class="badge">スタイル</span><span class="t">カテゴリー一覧</span><br><span class="d">コレンテ・年数表示・コリェイタ・フラスケイラ</span></span></a>
+      <a href="#w10"><span class="n">10</span><span><span class="badge">ビジネス</span><span class="t">業界構造と市場</span><br><span class="d">8社の生産者・IVBAM・販売データ</span></span></a>
+      <a href="#w11"><span class="n">11</span><span><span class="badge">まとめ</span><span class="t">これだけは覚えよう10</span><br><span class="d">試験前の総復習</span></span></a>
+    </div>
+  </div>
+</section>
+
+<!-- 1 概要 -->
+<section class="page" id="w1" data-tab="🏝️概要">
+  <div class="card">
+    <span class="no">No.1</span>
+    <div class="ttl serif">🏝️ マデイラってどんなワイン？</div>
+    <div class="en">What is Madeira?</div>
+    <p class="big" style="margin-top:12px">わざと温めて、わざと空気に触れさせて熟成させる酒精強化ワイン</p>
+    <h3 class="sec">✨ 4つの特徴</h3>
+    <ul class="dot">
+      <li>ふつうのワインの大敵である<b>「熱」と「酸素」</b>を、あえて利用する</li>
+      <li>色は<b>茶色</b>、香りは<b>ドライフルーツ・カラメル・ナッツ</b></li>
+      <li><b>辛口から極甘口まで</b>甘さのバリエーションが幅広い</li>
+      <li><b>酸味がとても高い</b>のが最大の個性。甘くてもベタつかない</li>
+    </ul>
+    <div class="note sub">補足：酒精強化ワインとは、発酵中または発酵後にブドウ由来のアルコール（スピリッツ）を加えて度数を高めたワイン。ポートやシェリーの仲間です。</div>
+    <h3 class="sec">🌍 産地</h3>
+    <div class="kv">
+      <b>📍 場所</b><span>ポルトガル領マデイラ島（大西洋）。モロッコの西 約600km、カナリア諸島の北 約400km</span>
+      <b>📏 大きさ</b><span>長さ約55km × 最大幅約22km</span>
+      <b>⛰️ 地形</b><span>火山島。最高峰は1,800m超</span>
+      <b>🏘️ 主な町</b><span>フンシャル（南岸）、サンタナ（北岸）、カマラ・デ・ロボス、リベイラ・ブラーヴァ など</span>
+    </div>
+    <div class="foot">1 / 11</div>
+  </div>
+</section>
+
+<!-- 2 歴史 -->
+<section class="page" id="w2" data-tab="📜歴史">
+  <div class="card">
+    <span class="no">No.2</span>
+    <div class="ttl serif">📜 歴史：船旅がワインを変えた</div>
+    <div class="en">History</div>
+    <div class="note"><b>⛵ ポイント</b><br>熱帯を横断する船の中で、高温と温度変化にさらされたワインがおいしくなった。やがてワインは「品質を上げる目的」で船の重し（バラスト）として積まれるように。<br>→ この「船旅の再現」が、現在の熟成方法の原点。</div>
+    <h3 class="sec">🕰️ 年表</h3>
+    <div class="tl">
+      <div><b>1420年頃</b>ポルトガル人が入植。森を焼いて農地を作り、石積みの段々畑と灌漑水路を整備</div>
+      <div><b>1500年代</b>主力だった砂糖産業が他国との競争で衰退 → ワインが主な輸出品に（当時は酒精強化なし）</div>
+      <div><b>1600〜1700年代</b>英国商人が北米・西インド諸島の英植民地へ輸出し拡大</div>
+      <div><b>1600年代後半</b>ポートと同じ頃に酒精強化ワインになったと考えられる</div>
+      <div><b>1800年代中〜後半</b>うどんこ病、続いてフィロキセラが上陸し、ブドウ樹が大打撃</div>
+      <div><b>1900年代</b>ロシア革命・米国禁酒法・2度の世界大戦で主要市場を失う。末期に販売は安定したが、1700年代のピークには遠く及ばず</div>
+      <div><b>1979年</b>マデイラ・ワイン協会設立</div>
+      <div><b>1986年</b>ポルトガルがEU加盟 → EU補助金で品質向上</div>
+      <div><b>2006年</b>現在の管理機関 IVBAM に移行</div>
+    </div>
+    <div class="foot">2 / 11</div>
+  </div>
+</section>
+
+<!-- 3 栽培 -->
+<section class="page" id="w3" data-tab="🌤️気候・畑">
+  <div class="card">
+    <span class="no">No.3</span>
+    <div class="ttl serif">🌤️ 気候とブドウ畑</div>
+    <div class="en">Growing Environment & Grape Growing</div>
+    <h3 class="sec">🌤️ 気候</h3>
+    <div class="kv">
+      <b>🌡️ 気温</b><span>温暖な地中海性気候。夏 約20〜22℃／冬 約16〜17℃</span>
+      <b>🌧️ 雨</b><span>主に秋〜冬。島の中央は年3,000mm超（森林で農業不可）、フンシャル周辺 約650mm、サンタナ周辺 600mm未満</span>
+      <b>⛰️ 地形</b><span>北からの湿った空気が山で冷やされ雨雲に → 中央は涼しく湿潤。標高による多様なメソクライメット</span>
+    </div>
+    <div class="note">⚠️ 冬が暖かすぎて、ブドウがきちんと「休眠」できないことがある（特に暖かい場所）</div>
+    <h3 class="sec">🪨 畑と土壌</h3>
+    <ul class="dot">
+      <li>ブドウ畑 約450ha、標高約800mまで、主に海岸近く</li>
+      <li>火山性で栄養豊富な土壌＋冬の雨 → 樹の勢いが強い</li>
+      <li>1軒あたりの平均面積：わずか約0.3ha</li>
+    </ul>
+    <h3 class="sec">🌱 栽培</h3>
+    <div class="kv">
+      <b>🏗️ ラタダ</b><span>棚仕立て（パーゴラ）。風通しがよく病気予防に。棚の下で別の作物も育てられ、狭い土地を有効活用</span>
+      <b>📐 エスパルデイラ</b><span>垣根仕立て（VSP）も見られる</span>
+      <b>🦠 病害</b><span>温暖多湿でべと病・うどんこ病・灰色かび病などが頻発 → 農薬散布はほぼ必須</span>
+      <b>💧 レヴァーダ</b><span>島の中央の雨水を畑へ運ぶ小さな水路。乾いた南側は特に頼っている</span>
+      <b>✂️ 収穫</b><span>収穫日は IVBAM が決定（8月末〜9月初め）。急斜面のため手摘み。潜在アルコール最低9%、一般に11%以下</span>
+      <b>📈 収量</b><span>150hL/haも珍しくない（肥沃な土＋灌漑）</span>
+    </div>
+    <div class="foot">3 / 11</div>
+  </div>
+</section>
+<!-- 4 品種 -->
+<section class="page" id="w4" data-tab="🍇品種">
+  <div class="card">
+    <span class="no">No.4</span>
+    <div class="ttl serif">🍇 ブドウ品種</div>
+    <div class="en">Grape Varieties</div>
+    <h3 class="sec">🔄 病害が品種構成を変えた</h3>
+    <div class="tl">
+      <div><b>昔</b>マルヴァジア・テランテスが高評価、ヴェルデーリョが最多</div>
+      <div><b>1800年代後半</b>うどんこ病とフィロキセラでヨーロッパ系品種（ヴィニフェラ）がほぼ壊滅</div>
+      <div><b>その後</b>病害に強く多収なアメリカ系・交雑種を植栽（品質は劣る）</div>
+      <div><b>1980年代後半〜</b>EU資金でヴィニフェラへ植え替え → 現在アメリカ系・交雑種は<b style="display:inline;color:var(--main)">使用禁止</b></div>
+    </div>
+    <div class="kv">
+      <b>⭐ 推奨品種</b><span>セルシアル、ヴェルデーリョ、ボアル、マルヴァジア、テランテス、ティンタ・ネグラ</span>
+      <b>✔️ 認可品種</b><span>フィロキセラ後に植えられたが、推奨品種ほど品質が出ない品種</span>
+      <b>💴 価格</b><span>伝統的な白5品種は、ティンタ・ネグラよりずっと高値</span>
+    </div>
+    <h3 class="sec">🍇 主要6品種</h3>
+    <div class="vc"><h4>🟣 ティンタ・ネグラ<span class="en">Tinta Negra</span></h4><ul class="dot"><li>黒ブドウ。島で最も多く栽培。多収で育てやすい</li><li>あらゆる甘辛度に使われる。2015年から品種名表示可（実際はあまりしない）</li></ul></div>
+    <div class="vc"><h4>🟢 セルシアル<span class="en">Sercial</span></h4><ul class="dot"><li>酸がとても高い → 最も辛口のスタイルに</li><li>晩熟で最後に収穫。うどんこ病に強いが灰色かび病に弱い。結実不良も。植栽は少ない</li></ul></div>
+    <div class="vc"><h4>🟢 ヴェルデーリョ<span class="en">Verdelho</span></h4><ul class="dot"><li>ヴィニフェラで2番目に多い。酸はセルシアルよりやや低め</li><li>灰色かび病・花ぶるい・べと病・うどんこ病に弱い</li></ul></div>
+    <div class="vc"><h4>🟢 ボアル<span class="en">Boal</span></h4><ul class="dot"><li>別名マルヴァジア・フィナ（白ポートと同じ品種）</li><li>南部の暖かい低地向き。乾燥に弱く灌漑が必要。主に中甘口</li></ul></div>
+    <div class="vc"><h4>🟢 マルヴァジア<span class="en">Malvasia</span></h4><ul class="dot"><li>複数の無関係な品種の総称</li><li>現在の主流：<b>マルヴァジア・デ・サン・ジョルジェ</b>（糖・酸ともに高く多収、灰色かび病に弱い）→ マムジーの主原料</li><li>歴史的に重要：<b>マルヴァジア・カンディダ</b>（高品質だがうどんこ病に弱く希少）</li></ul></div>
+    <div class="vc"><h4>🟢 テランテス<span class="en">Terrantez</span></h4><ul class="dot"><li>非常に希少。うどんこ病・灰色かび病に弱い</li><li>潜在アルコール9%に達したらすぐ収穫</li></ul></div>
+    <div class="foot">4 / 11</div>
+  </div>
+</section>
+
+<!-- 5 醸造 -->
+<section class="page" id="w5" data-tab="🛢️醸造">
+  <div class="card">
+    <span class="no">No.5</span>
+    <div class="ttl serif">🛢️ 収穫から酒精強化まで</div>
+    <div class="en">Winemaking</div>
+    <div class="note"><b>💡 覚え方</b><br>「いつ酒精強化するか」で甘さが決まる。<b>早く止めるほど甘い。</b></div>
+    <h3 class="sec">🔢 造りの流れ</h3>
+    <div class="tl">
+      <div><b>① ブドウの受け入れ</b>必ず IVBAM 担当者が立ち会い。重量・健全度・潜在アルコールをチェック</div>
+      <div><b>② 除梗・破砕</b></div>
+      <div><b>③ 果皮との接触</b>生産者次第。ティンタ・ネグラは特に中甘口・甘口で果皮ごと発酵が多い。白ブドウで果皮接触を取り入れる生産者も</div>
+      <div><b>④ 発酵</b>ステンレスタンクで天然酵母を使うのが一般的</div>
+      <div><b>⑤ 酒精強化</b>甘口：発酵わずか約2日で強化 → 糖が多く残る<br>辛口：約1週間発酵後に強化<br>96%のニュートラルなブドウ・スピリッツ（品質は IVBAM が承認）<br>強化後：<b style="display:inline">17〜18%</b></div>
+      <div><b>⑥ 清澄・ろ過</b>ベントナイト・ゼラチン・卵白で清澄、珪藻土でろ過</div>
+      <div><b>⑦ 格付け</b>試飲してスタイルと品質を分類 → 熟成ルートが決まる</div>
+    </div>
+    <div class="foot">5 / 11</div>
+  </div>
+</section>
+
+<!-- 6 熟成 -->
+<section class="page" id="w6" data-tab="🔥熟成">
+  <div class="card">
+    <span class="no">No.6</span>
+    <div class="ttl serif">🔥 熟成のカギは「熱」と「酸素」</div>
+    <div class="en">Maturation</div>
+    <p class="intro">現代のマデイラは、1600〜1700年代初めの「熱帯を渡る船旅」の高温・酸化条件を再現して熟成させます。</p>
+    <h3 class="sec">👃 熟成で生まれる香り（Aroma）</h3>
+    <div class="emorow">🍑🍇🍮🍫🌰💨</div>
+    <p style="font-size:14px">アプリコットやレーズンなどのドライフルーツ、カラメル、チョコレート、ナッツ、スモーキーさ。</p>
+    <ul class="dot">
+      <li><b>酸化</b> → 色が茶色に。フレッシュな果実香（第一アロマ）がドライフルーツのような熟成香（第三アロマ）へ</li>
+      <li><b>高温</b> → 酸化のスピードが上がり、糖分がカラメル化</li>
+    </ul>
+    <h3 class="sec">⚖️ 2つの熟成方法</h3>
+    <div class="vs">
+      <div class="box"><h4>🏭 エストゥファジェン<br><span class="en">Estufagem</span></h4>
+        <ul class="dot">
+          <li>ステンレスタンク（エストゥファ）を加熱</li>
+          <li><b>45〜50℃</b>（上限50℃）で最低3か月</li>
+          <li>冷却・ろ過後、6〜12か月休ませる</li>
+          <li>販売：収穫2年後の10月31日〜<br>（2023年産 → 2025年10月31日〜）</li>
+          <li>手頃なクラス向け。主にティンタ・ネグラの3年・5年もの</li>
+          <li>昔は「焼けた・煮えた」と言われたが改善。ただし複雑さはカンテイロに及ばない</li>
+        </ul></div>
+      <div class="box"><h4>🏠 カンテイロ<br><span class="en">Canteiro</span></h4>
+        <ul class="dot">
+          <li>太陽で温まる屋根裏や倉庫で、古いオーク樽（400〜700L）に入れて熟成</li>
+          <li>自然な温度で<b>25〜40℃</b></li>
+          <li>若いワインは暑い屋根近く → 長期熟成は涼しい場所へ</li>
+          <li>販売：収穫翌年1月1日から3年後〜<br>（2023年産 → 2027年1月〜）</li>
+          <li>高品質ワイン向け。手間とコストがかかる</li>
+        </ul></div>
+    </div>
+    <div class="note">🔒 共通ルール：どちらも容器を満タンにせず空間（ウラージュ）を残して酸化させる。IVBAM の担当者が容器を封印・開封する。</div>
+    <h3 class="sec">💨 カンテイロで起きること</h3>
+    <ul class="dot">
+      <li>水分が蒸発 → アルコールが<b>19〜20%</b>に上昇</li>
+      <li>糖・酸・香りも凝縮。揮発酸も増える</li>
+      <li>澱引きはほとんどしないが、蒸発分を定期的に補充</li>
+    </ul>
+    <div class="note sub">補足：イメージとしては、エストゥファジェンは「温度管理されたタンクで一気に温める」、カンテイロは「屋根裏で太陽の熱を使ってじっくり寝かせる」方法です。</div>
+    <div class="foot">6 / 11</div>
+  </div>
+</section>
+
+<!-- 7 延長熟成・ブレンド -->
+<section class="page" id="w7" data-tab="⏳延長熟成・ブレンド">
+  <div class="card">
+    <span class="no">No.7</span>
+    <div class="ttl serif">⏳ 延長熟成とブレンド</div>
+    <div class="en">Extended Maturation & Blending</div>
+    <h3 class="sec">⏳ 延長熟成</h3>
+    <ul class="dot">
+      <li>最低期間を超えて熟成も可能。大きめの木樽・ステンレス・ガラス瓶（デミジョン）で蒸発を抑える</li>
+      <li>長期熟成はお金がかかる → 最低期間＋<b>5年</b>熟成するとEU補助金を申請可（量＝hL単位で支給）</li>
+      <li>この5年間も IVBAM が封印・開封。途中の確認・調整も立ち会いのもとで実施</li>
+      <li>終了時にさらに5年延長の申請も可能</li>
+    </ul>
+    <h3 class="sec">🧪 ブレンド</h3>
+    <ul class="dot">
+      <li><b>大半はノン・ヴィンテージ</b>（複数年・複数の畑のブレンド）→ 毎年同じスタイルを安定して出すため</li>
+      <li>倉庫内の置き場所が違う樽どうし、エストゥファジェンとカンテイロのワインも混ぜられる</li>
+      <li>例：若いクラスでも古いカンテイロを少し加えて複雑さを足す</li>
+    </ul>
+    <h3 class="sec">🎛️ 最終調整</h3>
+    <div class="kv">
+      <b>🎨 色を濃く</b><span>カラメル添加（手頃〜中価格帯）</span>
+      <b>🤍 色を薄く</b><span>活性炭で清澄</span>
+      <b>🍯 甘く</b><span>精留濃縮果汁（RCGM）を添加</span>
+      <b>🍋 辛く</b><span>より辛口のワインとブレンド</span>
+    </div>
+    <div class="foot">7 / 11</div>
+  </div>
+</section>
+<!-- 8 スタイル -->
+<section class="page" id="w8" data-tab="🏷️甘さ・品種">
+  <div class="card">
+    <span class="no">No.8</span>
+    <div class="ttl serif">🏷️ 甘さの表示と品種</div>
+    <div class="en">Styles of Madeira</div>
+    <h3 class="sec">🍯 5段階の甘辛度表示</h3>
+    <div class="scale">
+      <div style="background:#d9b26a">エクストラ<br>ドライ</div>
+      <div style="background:#c08a3e">ドライ</div>
+      <div style="background:#a5602b">ミディアム<br>ドライ</div>
+      <div style="background:#8c4a22">ミディアム<br>スウィート</div>
+      <div style="background:#5a2210">スウィート<br>(リッチ)</div>
+    </div>
+    <ul class="dot">
+      <li>「ドライ」でも実際にはある程度の甘さがある</li>
+      <li>区分は重なり合う：ある生産者の「ドライ」が別の生産者では「ミディアム・ドライ」のことも</li>
+    </ul>
+    <div class="note"><b>💡 品種名＝甘さのサイン</b>（ティンタ・ネグラ以外）<br>セルシアル → ヴェルデーリョ → ボアル → マルヴァジアの順に、色が濃く、ボディが重く、甘くなる。品種表示ワインには甘辛度の表示は不要。<br>2015年以降、すべてのマデイラに<b>瓶詰め年の表示が義務</b>。</div>
+
+    <div class="vc"><h4>🟢 セルシアル<span class="en">Sercial</span></h4>
+      <div class="chips"><span class="chip">🍯 エクストラ・ドライ〜ドライ</span></div>
+      <div class="kv"><b>👁️ 外観</b><span>最も淡い</span><b>👃 香り</b><span>🍋🌰 柑橘の皮、ナッツ</span><b>👅 味わい</b><span>最も軽いボディ</span></div></div>
+    <div class="vc"><h4>🟢 ヴェルデーリョ<span class="en">Verdelho</span></h4>
+      <div class="chips"><span class="chip">🍯 ミディアム・ドライ</span></div>
+      <div class="kv"><b>👁️ 外観</b><span>セルシアルよりやや濃いことも</span><b>👃 香り</b><span>🍊 砂糖漬けの果物のような甘い印象</span><b>👅 味わい</b><span>残糖が多く、ボディと丸みがある</span></div></div>
+    <div class="vc"><h4>🟢 テランテス<span class="en">Terrantez</span></h4>
+      <div class="chips"><span class="chip">🍯 ミディアム・ドライ〜ミディアム・スウィート</span></div>
+      <div class="kv"><b>👃 香り</b><span>🍋🍮🌸 柑橘の皮、カラメル、時に花</span><b>👅 味わい</b><span>糖分が高くても常に繊細</span></div></div>
+    <div class="vc"><h4>🟢 ボアル<span class="en">Boal</span></h4>
+      <div class="chips"><span class="chip">🍯 ミディアム・スウィート</span></div>
+      <div class="kv"><b>👁️ 外観</b><span>ヴェルデーリョより濃い</span><b>👃 香り</b><span>🍮🍫🌰 カラメル、チョコレート、砂糖がけナッツ</span><b>👅 味わい</b><span>よりフルボディで甘い</span></div></div>
+    <div class="vc"><h4>🟢 マルヴァジア（マムジー）<span class="en">Malvasia / Malmsey</span></h4>
+      <div class="chips"><span class="chip">🍯 スウィート（最も甘い）</span></div>
+      <div class="kv"><b>👁️ 外観</b><span>茶色いことが多い</span><b>👃 香り</b><span>🍇🍮 レーズン、カラメル</span><b>👅 味わい</b><span>フルボディ。最も甘いが高い酸でバランス</span></div></div>
+    <div class="vc"><h4>🟣 ティンタ・ネグラ<span class="en">Tinta Negra</span></h4>
+      <div class="chips"><span class="chip">🍯 どの甘さもあり</span></div>
+      <p style="font-size:14px">2015年から品種名表示も可能。品種名だけでは甘さはわからない。</p></div>
+    <div class="foot">8 / 11</div>
+  </div>
+</section>
+
+<!-- 9 カテゴリー -->
+<section class="page" id="w9" data-tab="📦カテゴリー">
+  <div class="card">
+    <span class="no">No.9</span>
+    <div class="ttl serif">📦 カテゴリー一覧</div>
+    <div class="en">Further Madeira Categories</div>
+    <div class="tw"><table>
+      <tr><th>カテゴリー</th><th>ヴィンテージ</th><th>熟成</th><th>ポイント</th></tr>
+      <tr><td><b>スタンダード・ブレンド</b><br>（コレンテ）</td><td>なし</td><td>収穫後2〜3年で販売可</td><td>主にティンタ・ネグラ＋エストゥファジェン。ブランド名（例：Blandy's Duke of Clarence）やスタイル名で販売</td></tr>
+      <tr><td><b>年数表示</b><br>5/10/15/20/30/40/50/50年超</td><td>なし</td><td>―</td><td>年数は最低・平均年数ではなく<b>スタイルの目安</b>。IVBAM の試飲審査と全ロットの記録が必要</td></tr>
+      <tr><td><b>レインウォーター</b></td><td>なし</td><td>年数表示は最大10年</td><td>軽めのスタイル。約18%、必ずミディアム・ドライ</td></tr>
+      <tr><td><b>コリェイタ</b><br>Colheita</td><td>単一年</td><td>樽で最低5年</td><td>単一品種でもブレンドでも可。収穫年・瓶詰め年を表示。2000年誕生、今は全生産者が造る</td></tr>
+      <tr><td><b>フラスケイラ</b><br>（ガラフェイラ）</td><td>単一年</td><td>樽で最低20年</td><td>推奨品種1種のみ。品種名・収穫年・瓶詰め年を表示。生産者の最高峰、超プレミアム価格帯</td></tr>
+    </table></div>
+    <h3 class="sec">📈 年数表示の品質イメージ</h3>
+    <div class="kv">
+      <b>5年</b><span>主にティンタ・ネグラ、大半がエストゥファジェン。良〜非常に良い品質、中価格帯</span>
+      <b>10年以上</b><span>白ブドウ品種が多い（ティンタ・ネグラもあり）。すべてカンテイロ熟成</span>
+      <b>20年以上</b><span>卓越した品質が多く、プレミアム〜超プレミアム価格帯</span>
+    </div>
+    <div class="note">年数が上がるほど、凝縮感・複雑さ・<b>酸味</b>が増す。</div>
+    <div class="note sub">☔ レインウォーターの名前の由来：出荷待ちの樽が屋外で開いたまま放置され、雨で薄まったという説。</div>
+    <div class="foot">9 / 11</div>
+  </div>
+</section>
+
+<!-- 10 ビジネス -->
+<section class="page" id="w10" data-tab="💼ビジネス">
+  <div class="card">
+    <span class="no">No.10</span>
+    <div class="ttl serif">💼 業界構造と市場</div>
+    <div class="en">Wine Law & Wine Business</div>
+    <h3 class="sec">🏭 畑はバラバラ、造り手はごく少数</h3>
+    <div class="kv">
+      <b>👨‍🌾 栽培者</b><span>1,600人以上（平均0.3ha）</span>
+      <b>🏢 生産者</b><span>わずか8社。大手3社：Justino's、Madeira Wine Company、Henriques &amp; Henriques</span>
+      <b>🌱 自社畑</b><span>Henriques &amp; Henriques と Madeira Wine Company の2社のみ（それでも必要量のごく一部）→ 全社がブドウを買い付け</span>
+      <b>🤝 エージェント</b><span>栽培期の助言や収穫の調整を担う仲介者</span>
+    </div>
+    <h3 class="sec">🏛️ IVBAM</h3>
+    <p style="font-size:14px">2006年設立。ワインのほか、島の刺繍・手工芸・スピリッツ産業も管轄。</p>
+    <div class="chips"><span class="chip">在庫量の監視</span><span class="chip">品質管理</span><span class="chip">ブドウ受け入れ立ち会い</span><span class="chip">容器の封印・開封</span><span class="chip">年数表示・ヴィンテージ品の審査</span><span class="chip">栽培者への助言</span><span class="chip">生産・表示ルール制定</span></div>
+    <h3 class="sec">📊 販売（2023年）</h3>
+    <div class="kv">
+      <b>総販売量</b><span>300万L（数十年ほぼ横ばい）</span>
+      <b>販売額</b><span>2,100万ユーロ（じわじわ上昇）</span>
+      <b>コレンテ</b><span>約86%（260万L）</span>
+      <b>年数表示</b><span>5年が最多、次いで10年</span>
+      <b>テランテス</b><span>主にフラスケイラか20年もの</span>
+      <b>単一年もの</b><span>コリェイタ＋フラスケイラで約5万L。販売額シェアは拡大中</span>
+    </div>
+    <h3 class="sec">🌍 主要市場（販売量）</h3>
+    <div class="tw"><table>
+      <tr><th>順位</th><th>市場</th><th>販売量</th><th>特徴</th></tr>
+      <tr><td>1</td><td>🇫🇷 フランス</td><td>80万L</td><td>手頃なマデイラ中心</td></tr>
+      <tr><td>2</td><td>🏝️ マデイラ島内</td><td>47万L</td><td>観光需要。高価格帯</td></tr>
+      <tr><td>3</td><td>🇩🇪 ドイツ</td><td>28万L</td><td>手頃なマデイラ中心</td></tr>
+      <tr><td>4</td><td>🇬🇧 英国</td><td>23万L</td><td>―</td></tr>
+      <tr><td>―</td><td>🇺🇸 米国</td><td>―</td><td>高価格帯の重要市場</td></tr>
+    </table></div>
+    <h3 class="sec">🍳 料理用マデイラ</h3>
+    <ul class="dot">
+      <li>販売量の約20%は料理・菓子・香料用（エストゥファジェン製）</li>
+      <li>飲用より1年早く、収穫翌年の10月31日から販売可</li>
+      <li>塩やコショウを加えてソース用などに加工されることも</li>
+    </ul>
+    <div class="foot">10 / 11</div>
+  </div>
+</section>
+
+<!-- 11 まとめ -->
+<section class="page" id="w11" data-tab="✅まとめ">
+  <div class="card">
+    <span class="no">No.11</span>
+    <div class="ttl serif">✅ これだけは覚えよう10</div>
+    <div class="en">Key Takeaways</div>
+    <div class="list" style="margin-top:10px">
+      <a><span class="n">1</span><span>大西洋のポルトガル領火山島で造られる酒精強化ワイン</span></a>
+      <a><span class="n">2</span><span>熱帯を渡る船旅で品質が上がった歴史が「加熱＋酸化」熟成の原点</span></a>
+      <a><span class="n">3</span><span>温暖湿潤で病害が多く、畑は小さく急斜面。ラタダとレヴァーダが特徴</span></a>
+      <a><span class="n">4</span><span>最多は黒ブドウのティンタ・ネグラ。高級品は白の伝統品種中心</span></a>
+      <a><span class="n">5</span><span>甘さは酒精強化のタイミングで決まる（早いほど甘い）</span></a>
+      <a><span class="n">6</span><span>速いエストゥファジェン（タンク加熱）と、じっくりのカンテイロ（樽・自然加温）</span></a>
+      <a><span class="n">7</span><span>セルシアル（辛）→ ヴェルデーリョ → ボアル → マルヴァジア（甘）</span></a>
+      <a><span class="n">8</span><span>どのスタイルでも酸味が高く、甘さとバランスがとれている</span></a>
+      <a><span class="n">9</span><span>単一年ものはコリェイタ（最低5年）とフラスケイラ（最低20年）</span></a>
+      <a><span class="n">10</span><span>IVBAM が収穫から熟成・品質審査まで厳しく管理</span></a>
+    </div>
+    <div class="foot">11 / 11</div>
+  </div>
+</section>
+
+<!-- 用語集 -->
+<section class="page" id="tips" data-tab="📖用語集">
+  <div class="card">
+    <div class="ttl serif">📖 マデイラ用語集</div>
+    <div class="en">Glossary</div>
+    <div class="vc"><h4>酒精強化<span class="en">Fortification</span></h4><p style="font-size:14px">ワインにスピリッツを加えて度数を上げること。マデイラは96%のニュートラルなブドウ・スピリッツを使用。</p></div>
+    <div class="vc"><h4>潜在アルコール<span class="en">Potential Alcohol</span></h4><p style="font-size:14px">ブドウの糖分がすべて発酵した場合に得られるアルコール度数。収穫の目安になる。</p></div>
+    <div class="vc"><h4>ウラージュ<span class="en">Ullage</span></h4><p style="font-size:14px">容器の中のワインが入っていない空間。ここから酸化が進む。マデイラではあえて残す。</p></div>
+    <div class="vc"><h4>第三アロマ<span class="en">Tertiary Aromas</span></h4><p style="font-size:14px">熟成によって生まれる香り。マデイラではドライフルーツ・カラメル・ナッツなど。</p></div>
+    <div class="vc"><h4>ノン・ヴィンテージ<span class="en">NV</span></h4><p style="font-size:14px">複数の収穫年のワインをブレンドしたもの。マデイラの大半がこれ。</p></div>
+    <div class="vc"><h4>ラタダ / エスパルデイラ<span class="en">Latadas / Espaldeira</span></h4><p style="font-size:14px">ラタダ＝棚仕立て（パーゴラ）、エスパルデイラ＝垣根仕立て（VSP）。</p></div>
+    <div class="vc"><h4>レヴァーダ<span class="en">Levadas</span></h4><p style="font-size:14px">島の中央から畑へ雨水を運ぶ灌漑水路。</p></div>
+    <div class="vc"><h4>エストゥファ<span class="en">Estufa</span></h4><p style="font-size:14px">エストゥファジェンで使う加熱用ステンレスタンク。</p></div>
+    <div class="vc"><h4>コレンテ<span class="en">Corrente</span></h4><p style="font-size:14px">年数表示のない若いスタンダード・ブレンド。販売量の約86%。</p></div>
+    <div class="vc"><h4>マムジー<span class="en">Malmsey</span></h4><p style="font-size:14px">マルヴァジアから造る甘口マデイラの別名。</p></div>
+    <div class="vc"><h4>RCGM<span class="en">Rectified Concentrated Grape Must</span></h4><p style="font-size:14px">精留濃縮果汁。甘さを加えるために使う。</p></div>
+    <div class="vc"><h4>IVBAM</h4><p style="font-size:14px">マデイラのワイン・刺繍・手工芸・スピリッツを管轄する公的機関（2006年〜）。</p></div>
+    <div class="vc"><h4>フィロキセラ<span class="en">Phylloxera</span></h4><p style="font-size:14px">ブドウの根を食害する害虫。1800年代に世界のブドウ畑を壊滅させた。</p></div>
+  </div>
+</section>
+
+<a class="home" href="#top">🏠 表紙に戻る</a>
+</main>
+<footer>出典：WSET Level 4 Diploma in Wines — D5 Fortified Wines, Chapter 5 Madeira</footer>
+<script>
+(function(){
+  var pages=[].slice.call(document.querySelectorAll('.page'));
+  var tabs=document.getElementById('tabs');
+  pages.forEach(function(p){var a=document.createElement('a');a.href='#'+p.id;a.textContent=p.dataset.tab;tabs.appendChild(a);});
+  var links=[].slice.call(tabs.children);
+  function onScroll(){
+    var y=window.scrollY+80, idx=-1;
+    pages.forEach(function(p,i){if(p.offsetTop<=y)idx=i;});
+    links.forEach(function(a,i){var on=i===idx;if(on&&!a.classList.contains('on')&&a.scrollIntoView)tabs.scrollTo({left:a.offsetLeft-tabs.clientWidth/2+a.clientWidth/2,behavior:'smooth'});a.classList.toggle('on',on);});
+  }
+  window.addEventListener('scroll',onScroll,{passive:true}); onScroll();
+})();
+</script>
+</body>
+</html>
